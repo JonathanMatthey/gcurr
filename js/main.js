@@ -15,24 +15,28 @@ $(document).ready(function(){
     var iScrollInstance;
     var content1Bottom = $("#content1").position().top + $("#content1").height();
     var originalAdHeight = $(".ad-cover").height();
-
+    $(".ad-cover").height(100);
+    var collapsedAdHeight = $(".ad-cover").height();
+    var adBottom = $(".ad-cover").position().top + $(".ad-cover").height();
+    var adIsAtBottom = content1Bottom - $(window).height() - $(window).height();
+    alert( $(window).height());
     if (isMobileWebkit) {
       iScrollInstance = new iScroll('wrapper',{
         onScrollMove: function() {
           var content1BottomOffset;
-          if((-iScrollInstance.y ) > content1Bottom){
+
+          // 3 states
+
+          // shrink ad up
+          if((-iScrollInstance.y) > content1Bottom){
+            $(".ad-cover").height(originalAdHeight+content1BottomOffset);
+          }
+          // expand ad down
+          else if((-iScrollInstance.y) > adIsAtBottom){
             content1BottomOffset = (-iScrollInstance.y) - content1Bottom;
             $("#content2").prepend(content1BottomOffset);
             $(".ad-cover").height(originalAdHeight+content1BottomOffset);
           }
-
-
-          // 3 states
-
-          // expand down
-
-          // shrink up
-
         }
       });
 
